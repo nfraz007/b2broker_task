@@ -49,7 +49,6 @@ php index.php
 ```
 
 ```txt
-
 ****** All Accounts ******
 Account No: 1 | Balance: 0
 Account No: 2 | Balance: 0
@@ -60,6 +59,13 @@ Account No: 2 | Balance: 0
 2022-01-02 |  200 |  deposit 200
 2022-01-03 |  -50 |  withdrawal 50
 2022-01-04 |  -150 |  transfer to 1: 150
+****** Account Balance for 1 Balance: 100 ******
+
+****** Account Transaction for 1 sort by comment ******
+2022-01-01 |  100 |  deposit 100
+2022-01-02 |  200 |  deposit 200
+2022-01-04 |  -150 |  transfer to 1: 150
+2022-01-03 |  -50 |  withdrawal 50
 ****** Account Balance for 1 Balance: 100 ******
 
 ****** Account Transaction for 2 sort by date ******

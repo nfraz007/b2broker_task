@@ -29,7 +29,7 @@ try {
 
     // print account1 transaction
     $finance->printAccountTransaction($account1);
-    // $finance->printAccountTransaction($account1, ["sortBy" => "comment"]);
+    $finance->printAccountTransaction($account1, ["sortBy" => "comment"]);
 
     // print account2 transaction
     $finance->printAccountTransaction($account2);
