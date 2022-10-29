@@ -34,7 +34,7 @@ I have used Object Oriented Programming (OOP) to solve this problem. I have brok
 
 #### Finance
 
-- it has all the core business logic and only class to import, the rest all the dependencies this class will handle
+- it has all the core business logic and we only have to import this class
 - when we create an object, then it initiated all the dummy accounts like `accountNo` 1 and 2
 - `getAllAccounts()` function can be used to get all accounts in the system
 - `getAccount()` function can be used to get a single account
