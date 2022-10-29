@@ -1,5 +1,9 @@
 <?php
 
+namespace classes;
+
+use Exception;
+
 class Transaction
 {
     public function __construct($amount, $comment, $date)

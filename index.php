@@ -1,5 +1,9 @@
 <?php
-require_once "./Finance.class.php";
+require_once "./classes/Transaction.class.php";
+require_once "./classes/Account.class.php";
+require_once "./classes/Finance.class.php";
+
+use classes\Finance;
 
 try {
     $finance = new Finance();

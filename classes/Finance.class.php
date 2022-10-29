@@ -1,5 +1,8 @@
 <?php
-require_once "./Account.class.php";
+
+namespace classes;
+
+use Exception;
 
 class Finance
 {

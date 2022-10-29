@@ -1,5 +1,8 @@
 <?php
-require_once "./Transaction.class.php";
+
+namespace classes;
+
+use Exception;
 
 class Account
 {
