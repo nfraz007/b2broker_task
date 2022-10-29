@@ -2,6 +2,8 @@
 
 namespace classes;
 
+require_once "./classes/Account.class.php";
+
 use Exception;
 
 class Finance
@@ -78,7 +80,7 @@ class Finance
     public function accountDeposit($account, $amount, $comment, $date)
     {
         if ($amount < 0) throw new Exception("Sorry, amount should be positive.");
-        echo "\n****** Deposit account " . $account->getAccountNo() . " | balance " . $account->getBalance() . " | amount $amount ******";
+        // echo "\n****** Deposit account " . $account->getAccountNo() . " | balance " . $account->getBalance() . " | amount $amount ******";
 
         $account = $account->transaction($amount, $comment, $date);
         $this->updateAccount($account->accountNo, $account);
@@ -97,7 +99,7 @@ class Finance
     public function accountWithdrawal($account, $amount, $comment, $date)
     {
         if ($amount < 0) throw new Exception("Sorry, amount should be positive.");
-        echo "\n****** Withdrawal account " . $account->getAccountNo() . " | balance " . $account->getBalance() . " | amount $amount ******";
+        // echo "\n****** Withdrawal account " . $account->getAccountNo() . " | balance " . $account->getBalance() . " | amount $amount ******";
 
         $amount *= -1;
         $account = $account->transaction($amount, $comment, $date);
@@ -117,7 +119,7 @@ class Finance
     public function accountTransfer($accountFrom, $accountTo, $amount, $date)
     {
         if ($amount < 0) throw new Exception("Sorry, amount should be positive.");
-        echo "\n****** transfer from account " . $accountFrom->getAccountNo() . " to " . $accountTo->getAccountNo() . " | amount $amount ******";
+        // echo "\n****** transfer from account " . $accountFrom->getAccountNo() . " to " . $accountTo->getAccountNo() . " | amount $amount ******";
 
         $accountFrom = $this->accountWithdrawal($accountFrom, $amount, "transfer to " . $accountFrom->getAccountNo() . ": $amount", $date);
         $accountTo = $this->accountDeposit($accountTo, $amount, "received from " . $accountTo->getAccountNo() . ": $amount", $date);

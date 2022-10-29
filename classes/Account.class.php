@@ -2,6 +2,8 @@
 
 namespace classes;
 
+require_once "./classes/Transaction.class.php";
+
 use Exception;
 
 class Account
@@ -56,7 +58,7 @@ class Account
         $balance = 0;
         foreach ($transactions as $transaction) {
             $balance += $transaction->amount;
-            if ($balance < 0) throw new Exception("Insufficiant Balance");
+            if ($balance < 0) throw new Exception("Sorry, Insufficiant Balance.");
         }
         return $balance;
     }
