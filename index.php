@@ -30,8 +30,20 @@ try {
     echo $finance->getAccountBalance(1);
 
     $account = $finance->getAccount(1);
-    echo "\nAll Transaction";
-    foreach ($account->getTransactions() as $transaction) {
+    echo "\nAll Transaction sort by date for Account 1";
+    foreach ($account->getTransactions("date") as $transaction) {
+        echo "\n" . $transaction->getDate() . " | " . $transaction->getAmount() . " | " . $transaction->getComment();
+    }
+
+    echo "\n\nAccount Balance: ";
+    echo $finance->getAccountBalance(2);
+    $account = $finance->getAccount(2);
+    echo "\nAll Transaction sort by date for Account 2";
+    foreach ($account->getTransactions("date") as $transaction) {
+        echo "\n" . $transaction->getDate() . " | " . $transaction->getAmount() . " | " . $transaction->getComment();
+    }
+    echo "\n\nAll Transaction sort by comment for Account 2";
+    foreach ($account->getTransactions("comment") as $transaction) {
         echo "\n" . $transaction->getDate() . " | " . $transaction->getAmount() . " | " . $transaction->getComment();
     }
 

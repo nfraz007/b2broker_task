@@ -22,8 +22,7 @@ interface FinanceInterface
     public function updateAccount(int $accountNo, AccountInterface $accountUpdated): void;
     public function deposit(int $accountNo, int $amount, string $date, string $comment = null): ?AccountInterface;
     public function withdrawal(int $accountNo, int $amount, string $date, string $comment = null): ?AccountInterface;
-    /** @return array<AccountInterface> */
-    public function transfer(int $accountNoFrom, int $accountNoTo, int $amount, string $date): array;
+    public function transfer(int $accountNoFrom, int $accountNoTo, int $amount, string $date): void;
 }
 
 class Finance implements FinanceInterface
@@ -113,8 +112,7 @@ class Finance implements FinanceInterface
         return $account;
     }
 
-    /** @return array<AccountInterface> */
-    public function transfer(int $accountNoFrom, int $accountNoTo, int $amount, string $date): array
+    public function transfer(int $accountNoFrom, int $accountNoTo, int $amount, string $date): void
     {
         if ($amount < 0) throw new Exception("Sorry, amount should be positive.");
 
@@ -129,6 +127,5 @@ class Finance implements FinanceInterface
             $comment = "received from " . $accountTo->getAccountNo() . ": $amount";
             $accountTo = $this->deposit($accountNoTo, $amount, $date, $comment);
         }
-        return [$accountFrom, $accountTo];
     }
 }

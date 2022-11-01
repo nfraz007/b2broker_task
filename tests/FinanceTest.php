@@ -160,7 +160,10 @@ class FinanceTest extends TestCase
 
         $account1 = $finance->deposit(1, 100, "2022-01-02");
         $account2 = $finance->deposit(2, 200, "2022-01-03");
-        [$account1, $account2] = $finance->transfer(1, 2, 50, "2022-01-04");
+        $finance->transfer(1, 2, 50, "2022-01-04");
+
+        $account1 = $finance->getAccount(1);
+        $account2 = $finance->getAccount(2);
 
         $this->assertEquals(50, $account1->getBalance());
         $this->assertEquals(250, $account2->getBalance());
@@ -179,6 +182,6 @@ class FinanceTest extends TestCase
 
         $account1 = $finance->deposit(1, 100, "2022-01-02");
         $account2 = $finance->deposit(2, 200, "2022-01-03");
-        [$account1, $account2] = $finance->transfer(1, 2, 150, "2022-01-04");
+        $finance->transfer(1, 2, 150, "2022-01-04");
     }
 }

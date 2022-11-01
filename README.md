@@ -16,7 +16,25 @@ The test task must be implemented without the use of frameworks and databases. T
 
 ## Design Pattern
 
-I have used Object Oriented Programming (OOP) to solve this problem. I have broken this problem into three small entities `Account`, `Transaction`, and `Finance`
+### Singleton Design Pattern
+
+- To avoid multiple object creation, a singleton design pattern is used
+- In our case, I have used `Finance` class as a singleton class.
+- This class is responsible to store all `accounts` data, and if we will initiate this class then we have to again put all the dummy data.
+- This class also have some important function like `createAccount`, `getAccounts`, `getAccount`, `getAccountBalance`, `deposit`, `withdrawal`, and `transfer`
+
+### Factory Design Pattern
+
+- to get more control over object creation, a factory class is created which is responsible to create other class objects.
+- In our case, I created two operations `AccountDeposit` and `AccountWithdrawal` as a separate class, which has their own logic to perform
+- I added a factory class `TransactionFactory` which is creating objects based on `deposit` or `withdrawal`
+
+### Dependencies Injection Design Pattern
+
+- to get more control over object creation, we can pass each dependency to the class constructor.
+- I have used this pattern in multiple places like `AccountDeposit` and `AccountWithdrawal` where I am passing dependencies like `Account` and `Transaction` objects in the constructor
+
+### Entity
 
 #### Account
 
@@ -24,7 +42,6 @@ I have used Object Oriented Programming (OOP) to solve this problem. I have brok
 - `accountNo` stores the account number
 - `balance` stores the current balance of the `account`
 - `transactions` stores the array of `Transaction`
-- it also has a `transaction()` method, which creates a new `Transaction` object and inserts it in the `transactions` array. It also updates the `balance`
 
 #### Transaction
 
@@ -32,46 +49,50 @@ I have used Object Oriented Programming (OOP) to solve this problem. I have brok
 - `amount` will be positive if deposit, else negative for withdrawal
 - `date` will be in `2020-01-01` format
 
-#### Finance
-
-- it has all the core business logic and we only have to import this class
-- when we create an object, then it initiated all the dummy accounts like `accountNo` 1 and 2
-- `getAllAccounts()` function can be used to get all accounts in the system
-- `getAccount()` function can be used to get a single account
-- `deposit()` will be used for the deposit
-- `withdrawal()` will be used for withdrawal
-- `transfer()` will be used for transfer from one account to another
-
-I have added a simple working example in `index.php` file. to run this use this command
-
 ```sh
 php index.php
 ```
 
 ```txt
 ****** All Accounts ******
-Account No: 1 | Balance: 0
-Account No: 2 | Balance: 0
-****** Account Balance for 1 Balance: 0 ******
+Account No: 1 | Balance: 10
+Account No: 2 | Balance: 20
 
-****** Account Transaction for 1 sort by date ******
-2022-01-01 |  100 |  deposit 100
-2022-01-02 |  200 |  deposit 200
-2022-01-03 |  -50 |  withdrawal 50
-2022-01-04 |  -150 |  transfer to 1: 150
-****** Account Balance for 1 Balance: 100 ******
+****** All Accounts ******
+Account No: 1 | Balance: 5
+Account No: 2 | Balance: 30
 
-****** Account Transaction for 1 sort by comment ******
-2022-01-01 |  100 |  deposit 100
-2022-01-02 |  200 |  deposit 200
-2022-01-04 |  -150 |  transfer to 1: 150
-2022-01-03 |  -50 |  withdrawal 50
-****** Account Balance for 1 Balance: 100 ******
+Account Balance: 5
+All Transaction sort by date for Account 1
+2022-01-01 | 10 | Initial Balance
+2022-01-02 | 20 | deposit 20
+2022-01-03 | -15 | withdraw 15
+2022-01-04 | -10 | transfer to 1: 10
 
-****** Account Transaction for 2 sort by date ******
-2022-01-01 |  150 |  deposit 150
-2022-01-04 |  150 |  received from 2: 150
-****** Account Balance for 2 Balance: 300 ******
+Account Balance: 30
+All Transaction sort by date for Account 2
+2022-01-01 | 20 | Initial Balance
+2022-01-04 | 10 | received from 2: 10
+
+All Transaction sort by comment for Account 2
+2022-01-01 | 20 | Initial Balance
+2022-01-04 | 10 | received from 2: 10
+```
+
+## PHPStan
+
+I have added phpstan code validator with level 9 in `phpstan.neon` file.
+
+```sh
+vendor/bin/phpstan analyse entity classes
+```
+
+```txt
+Note: Using configuration file /Applications/XAMPP/xamppfiles/htdocs/personal/b2broker_task/phpstan.neon.
+ 6/6 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ [OK] No errors
+
 ```
 
 ## Unit Test
@@ -87,15 +108,12 @@ composer install
 PHPUnit 9.5.26 by Sebastian Bergmann and contributors.
 
 Finance
- ✔ Get all accounts
+ ✔ Get accounts
  ✔ Get account
  ✔ Get account not found
  ✔ Initial balance as zero
- ✔ Initial transaction as blank array
- ✔ Deposit invalid amount
+ ✔ Initial transaction as single array
  ✔ Deposit negative amount
- ✔ Deposit zero amount
- ✔ Deposit no comment
  ✔ Deposit no date
  ✔ Deposit invalid date
  ✔ Deposit
@@ -108,7 +126,6 @@ Finance
  ✔ Transfer account to account
  ✔ Transfer account to account insuficiant balance
 
-Time: 00:00.018, Memory: 6.00 MB
+Time: 00:00.020, Memory: 6.00 MB
 
-OK (20 tests, 30 assertions)
 ```
