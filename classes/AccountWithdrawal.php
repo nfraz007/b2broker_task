@@ -20,8 +20,8 @@ class AccountWithdrawal implements AccountTransactionInterface
     public function makeTransaction(): AccountInterface
     {
 
-        $this->account->transactions[] = $this->transaction;
-        $this->account->balance += $this->transaction->amount;
+        $this->account->appendTransactions($this->transaction);
+        $this->account->increaseBalance($this->transaction->getAmount());
 
         $this->checkBalanceFromTransaction();
 
@@ -30,15 +30,11 @@ class AccountWithdrawal implements AccountTransactionInterface
 
     private function checkBalanceFromTransaction(): void
     {
-        $transactions = $this->account->transactions;
-
-        // sort transaction based on date asc
-        $date = array_column($transactions, "date");
-        array_multisort($date, SORT_ASC, $transactions);
+        $transactions = $this->account->getTransactions("date");
 
         $balance = 0;
         foreach ($transactions as $transaction) {
-            $balance += $transaction->amount;
+            $balance += $transaction->getAmount();
             if ($balance < 0) throw new Exception("Sorry, Insufficiant Balance.");
         }
     }

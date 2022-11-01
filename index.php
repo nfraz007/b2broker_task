@@ -13,7 +13,7 @@ try {
     $accounts = $finance->getAccounts();
     echo "\n****** All Accounts ******";
     foreach ($accounts as $account) {
-        echo "\nAccount No: " . $account->accountNo . " | Balance: " . $account->balance;
+        echo "\nAccount No: " . $account->getAccountNo() . " | Balance: " . $account->getBalance();
     }
 
     $finance->deposit(1, 20, "2022-01-02");
@@ -23,7 +23,7 @@ try {
     $accounts = $finance->getAccounts();
     echo "\n****** All Accounts ******";
     foreach ($accounts as $account) {
-        echo "\nAccount No: " . $account->accountNo . " | Balance: " . $account->balance;
+        echo "\nAccount No: " . $account->getAccountNo() . " | Balance: " . $account->getBalance();
     }
     // // print all accounts
     // $finance->printAllAccounts();

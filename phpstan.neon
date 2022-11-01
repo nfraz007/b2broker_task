@@ -1,5 +1,8 @@
 parameters:
-    level: 0
+    level: 9
     scanDirectories:
+        - classes
+        - entity
+    paths:
         - classes
         - entity

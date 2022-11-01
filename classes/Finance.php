@@ -65,7 +65,7 @@ class Finance implements FinanceInterface
     public function getAccount(int $accountNo): ?AccountInterface
     {
         foreach ($this->accounts as $account) {
-            if ($account->accountNo == $accountNo) return $account;
+            if ($account->getAccountNo() == $accountNo) return $account;
         }
         return null;
     }
@@ -73,7 +73,7 @@ class Finance implements FinanceInterface
     public function updateAccount(int $accountNo, AccountInterface $accountUpdated): void
     {
         foreach ($this->accounts as $index => $account) {
-            if ($account->accountNo == $accountNo) $this->accounts[$index] = $accountUpdated;
+            if ($account->getAccountNo() == $accountNo) $this->accounts[$index] = $accountUpdated;
         }
     }
 
@@ -86,7 +86,7 @@ class Finance implements FinanceInterface
             $transaction = new Transaction($amount, $date, $comment);
             $accountTransaction = TransactionFactory::create("deposit", $account, $transaction);
             $account = $accountTransaction->makeTransaction();
-            $this->updateAccount($account->accountNo, $account);
+            $this->updateAccount($account->getAccountNo(), $account);
         }
         return $account;
     }
@@ -100,7 +100,7 @@ class Finance implements FinanceInterface
             $transaction = new Transaction($amount * -1, $date, $comment);
             $accountTransaction = TransactionFactory::create("withdrawal", $account, $transaction);
             $account = $accountTransaction->makeTransaction();
-            $this->updateAccount($account->accountNo, $account);
+            $this->updateAccount($account->getAccountNo(), $account);
         }
 
         return $account;
@@ -115,10 +115,12 @@ class Finance implements FinanceInterface
         $accountTo = $this->getAccount($accountNoTo);
 
         if ($accountFrom) {
-            $accountFrom = $this->withdrawal($accountNoFrom, $amount, $date, "transfer to " . $accountFrom->accountNo . ": $amount");
+            $comment = "transfer to " . $accountFrom->getAccountNo() . ": $amount";
+            $accountFrom = $this->withdrawal($accountNoFrom, $amount, $date, $comment);
         }
         if ($accountTo) {
-            $accountTo = $this->deposit($accountNoTo, $amount, $date, "received from " . $accountTo->accountNo . ": $amount");
+            $comment = "received from " . $accountTo->getAccountNo() . ": $amount";
+            $accountTo = $this->deposit($accountNoTo, $amount, $date, $comment);
         }
         return [$accountFrom, $accountTo];
     }

@@ -11,12 +11,18 @@ use Exception;
  */
 interface TransactionInterface
 {
+    public function getAmount(): int;
+    public function setAmount(int $amount): void;
+    public function getDate(): string;
+    public function setDate(string $date): void;
+    public function getComment(): string;
+    public function setComment(string $comment): void;
 }
 class Transaction implements TransactionInterface
 {
-    public int $amount;
-    public string $date;
-    public string $comment;
+    private int $amount;
+    private string $date;
+    private string $comment;
 
     public function __construct(int $amount, string $date, string $comment = null)
     {
@@ -27,8 +33,38 @@ class Transaction implements TransactionInterface
         if (!$comment) {
             $comment = $amount < 0 ? "withdrawal " . abs($amount) : "deposit " . $amount;
         }
+        $this->setAmount($amount);
+        $this->setDate($date);
+        $this->setComment($comment);
+    }
+
+    public function getAmount(): int
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(int $amount): void
+    {
         $this->amount = $amount;
-        $this->comment = $comment;
+    }
+
+    public function getDate(): string
+    {
+        return $this->date;
+    }
+
+    public function setDate(string $date): void
+    {
         $this->date = $date;
+    }
+
+    public function getComment(): string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(string $comment): void
+    {
+        $this->comment = $comment;
     }
 }

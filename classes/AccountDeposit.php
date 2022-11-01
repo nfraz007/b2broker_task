@@ -23,8 +23,8 @@ class AccountDeposit implements AccountTransactionInterface
 
     public function makeTransaction(): AccountInterface
     {
-        $this->account->transactions[] = $this->transaction;
-        $this->account->balance += $this->transaction->amount;
+        $this->account->appendTransactions($this->transaction);
+        $this->account->increaseBalance($this->transaction->getAmount());
 
         return $this->account;
     }
