@@ -38,9 +38,9 @@ I have used Object Oriented Programming (OOP) to solve this problem. I have brok
 - when we create an object, then it initiated all the dummy accounts like `accountNo` 1 and 2
 - `getAllAccounts()` function can be used to get all accounts in the system
 - `getAccount()` function can be used to get a single account
-- `accountDeposit()` will be used for the deposit
-- `accountWithdrawal()` will be used for withdrawal
-- `accountTransfer()` will be used for transfer from one account to another
+- `deposit()` will be used for the deposit
+- `withdrawal()` will be used for withdrawal
+- `transfer()` will be used for transfer from one account to another
 
 I have added a simple working example in `index.php` file. to run this use this command
 

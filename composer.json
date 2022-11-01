@@ -4,7 +4,11 @@
   },
   "autoload": {
     "psr-4": {
-      "Classes\\": "classes"
+      "Classes\\": "classes",
+      "Entity\\": "entity"
     }
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^1.8"
   }
 }

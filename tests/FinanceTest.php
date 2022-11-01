@@ -49,7 +49,7 @@ class FinanceTest extends TestCase
 
         $finance = new Finance();
         $account = $finance->getAccount(1);
-        $account = $finance->accountDeposit($account, "abc", "test", "test");
+        $account = $finance->deposit($account, "abc", "test", "test");
     }
 
     public function testDepositNegativeAmount()
@@ -58,7 +58,7 @@ class FinanceTest extends TestCase
 
         $finance = new Finance();
         $account = $finance->getAccount(1);
-        $account = $finance->accountDeposit($account, -10, "test", "test");
+        $account = $finance->deposit($account, -10, "test", "test");
     }
 
     public function testDepositZeroAmount()
@@ -67,7 +67,7 @@ class FinanceTest extends TestCase
 
         $finance = new Finance();
         $account = $finance->getAccount(1);
-        $account = $finance->accountDeposit($account, 0, "test", "test");
+        $account = $finance->deposit($account, 0, "test", "test");
     }
 
     public function testDepositNoComment()
@@ -76,7 +76,7 @@ class FinanceTest extends TestCase
 
         $finance = new Finance();
         $account = $finance->getAccount(1);
-        $account = $finance->accountDeposit($account, 100, "", "test");
+        $account = $finance->deposit($account, 100, "", "test");
     }
 
     public function testDepositNoDate()
@@ -85,7 +85,7 @@ class FinanceTest extends TestCase
 
         $finance = new Finance();
         $account = $finance->getAccount(1);
-        $account = $finance->accountDeposit($account, 100, "deposit 100", "");
+        $account = $finance->deposit($account, 100, "deposit 100", "");
     }
 
     public function testDepositInvalidDate()
@@ -94,14 +94,14 @@ class FinanceTest extends TestCase
 
         $finance = new Finance();
         $account = $finance->getAccount(1);
-        $account = $finance->accountDeposit($account, 100, "deposit 100", "abc");
+        $account = $finance->deposit($account, 100, "deposit 100", "abc");
     }
 
     public function testDeposit()
     {
         $finance = new Finance();
         $account = $finance->getAccount(1);
-        $account = $finance->accountDeposit($account, 100, "deposit 100", "2022-01-01");
+        $account = $finance->deposit($account, 100, "deposit 100", "2022-01-01");
         $this->assertEquals(100, $account->getBalance());
     }
 
@@ -109,8 +109,8 @@ class FinanceTest extends TestCase
     {
         $finance = new Finance();
         $account = $finance->getAccount(1);
-        $account = $finance->accountDeposit($account, 100, "deposit 100", "2022-01-01");
-        $account = $finance->accountDeposit($account, 50, "deposit 50", "2022-01-02");
+        $account = $finance->deposit($account, 100, "deposit 100", "2022-01-01");
+        $account = $finance->deposit($account, 50, "deposit 50", "2022-01-02");
         $this->assertEquals(150, $account->getBalance());
     }
 
@@ -120,15 +120,15 @@ class FinanceTest extends TestCase
 
         $finance = new Finance();
         $account = $finance->getAccount(1);
-        $account = $finance->accountWithdrawal($account, 100, "withdraw 100", "2022-01-01");
+        $account = $finance->withdrawal($account, 100, "withdraw 100", "2022-01-01");
     }
 
     public function testWithdrawal()
     {
         $finance = new Finance();
         $account = $finance->getAccount(1);
-        $account = $finance->accountDeposit($account, 100, "deposit 100", "2022-01-01");
-        $account = $finance->accountWithdrawal($account, 50, "withdraw 50", "2022-01-02");
+        $account = $finance->deposit($account, 100, "deposit 100", "2022-01-01");
+        $account = $finance->withdrawal($account, 50, "withdraw 50", "2022-01-02");
         $this->assertEquals(50, $account->getBalance());
     }
 
@@ -138,19 +138,19 @@ class FinanceTest extends TestCase
 
         $finance = new Finance();
         $account = $finance->getAccount(1);
-        $account = $finance->accountDeposit($account, 100, "deposit 100", "2022-01-02");
-        $account = $finance->accountWithdrawal($account, 50, "withdraw 50", "2022-01-01");
+        $account = $finance->deposit($account, 100, "deposit 100", "2022-01-02");
+        $account = $finance->withdrawal($account, 50, "withdraw 50", "2022-01-01");
     }
 
     public function testDepositWithdrawalMultiple()
     {
         $finance = new Finance();
         $account = $finance->getAccount(1);
-        $account = $finance->accountDeposit($account, 100, "deposit 100", "2022-01-01");
-        $account = $finance->accountDeposit($account, 200, "deposit 200", "2022-01-02");
-        $account = $finance->accountWithdrawal($account, 50, "withdraw 50", "2022-01-03");
-        $account = $finance->accountDeposit($account, 500, "deposit 500", "2022-01-04");
-        $account = $finance->accountWithdrawal($account, 300, "withdraw 300", "2022-01-05");
+        $account = $finance->deposit($account, 100, "deposit 100", "2022-01-01");
+        $account = $finance->deposit($account, 200, "deposit 200", "2022-01-02");
+        $account = $finance->withdrawal($account, 50, "withdraw 50", "2022-01-03");
+        $account = $finance->deposit($account, 500, "deposit 500", "2022-01-04");
+        $account = $finance->withdrawal($account, 300, "withdraw 300", "2022-01-05");
         $this->assertEquals(450, $account->getBalance());
     }
 
@@ -158,9 +158,9 @@ class FinanceTest extends TestCase
     {
         $finance = new Finance();
         $account = $finance->getAccount(1);
-        $account = $finance->accountDeposit($account, 100, "deposit 100", "2022-01-01");
-        $account = $finance->accountDeposit($account, 150, "deposit 150", "2022-01-02");
-        $account = $finance->accountWithdrawal($account, 200, "withdraw 200", "2022-01-03");
+        $account = $finance->deposit($account, 100, "deposit 100", "2022-01-01");
+        $account = $finance->deposit($account, 150, "deposit 150", "2022-01-02");
+        $account = $finance->withdrawal($account, 200, "withdraw 200", "2022-01-03");
         $transactions = $account->getTransactions();
         $this->assertEquals(50, $account->getBalance());
         $this->assertEquals(100, $transactions[0]->getAmount());
@@ -180,9 +180,9 @@ class FinanceTest extends TestCase
         $account1 = $finance->getAccount(1);
         $account2 = $finance->getAccount(2);
 
-        $account1 = $finance->accountDeposit($account1, 100, "deposit 100", "2022-01-01");
-        $account2 = $finance->accountDeposit($account2, 200, "deposit 200", "2022-01-02");
-        [$account1, $account2] = $finance->accountTransfer($account1, $account2, 50, "2022-01-03");
+        $account1 = $finance->deposit($account1, 100, "deposit 100", "2022-01-01");
+        $account2 = $finance->deposit($account2, 200, "deposit 200", "2022-01-02");
+        [$account1, $account2] = $finance->transfer($account1, $account2, 50, "2022-01-03");
 
         $this->assertEquals(50, $account1->getBalance());
         $this->assertEquals(250, $account2->getBalance());
@@ -196,8 +196,8 @@ class FinanceTest extends TestCase
         $account1 = $finance->getAccount(1);
         $account2 = $finance->getAccount(2);
 
-        $account1 = $finance->accountDeposit($account1, 100, "deposit 100", "2022-01-01");
-        $account2 = $finance->accountDeposit($account2, 200, "deposit 200", "2022-01-02");
-        [$account1, $account2] = $finance->accountTransfer($account1, $account2, 150, "2022-01-03");
+        $account1 = $finance->deposit($account1, 100, "deposit 100", "2022-01-01");
+        $account2 = $finance->deposit($account2, 200, "deposit 200", "2022-01-02");
+        [$account1, $account2] = $finance->transfer($account1, $account2, 150, "2022-01-03");
     }
 }
