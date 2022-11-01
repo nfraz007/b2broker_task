@@ -16,9 +16,9 @@ class FinanceTest extends TestCase
     public function testGetAccount()
     {
         $finance = new Finance();
-        $accountNo = 1;
-        $account = $finance->getAccount($accountNo);
-        $this->assertEquals($accountNo, $account->getAccountNo());
+        $finance->createAccount(1, 0, "2022-01-01");
+        $account = $finance->getAccount(1);
+        $this->assertEquals(1, $account->getAccountNo());
     }
 
     public function testGetAccountNotFound()
@@ -138,26 +138,29 @@ class FinanceTest extends TestCase
         $account = $finance->withdrawal(1, 200, "2022-01-03");
         $transactions = $account->getTransactions();
         $this->assertEquals(50, $account->getBalance());
-        $this->assertEquals(100, $transactions[0]->getAmount());
-        $this->assertEquals("deposit 100", $transactions[0]->getComment());
-        $this->assertEquals("2022-01-01", $transactions[0]->getDate());
-        $this->assertEquals(150, $transactions[1]->getAmount());
-        $this->assertEquals("deposit 150", $transactions[1]->getComment());
-        $this->assertEquals("2022-01-02", $transactions[1]->getDate());
-        $this->assertEquals(-200, $transactions[2]->getAmount());
-        $this->assertEquals("withdraw 200", $transactions[2]->getComment());
-        $this->assertEquals("2022-01-03", $transactions[2]->getDate());
+        $this->assertEquals(100, $transactions[1]->getAmount());
+        $this->assertEquals("deposit 100", $transactions[1]->getComment());
+        $this->assertEquals("2022-01-01", $transactions[1]->getDate());
+        $this->assertEquals(150, $transactions[2]->getAmount());
+        $this->assertEquals("deposit 150", $transactions[2]->getComment());
+        $this->assertEquals("2022-01-02", $transactions[2]->getDate());
+        $this->assertEquals(-200, $transactions[3]->getAmount());
+        $this->assertEquals("withdraw 200", $transactions[3]->getComment());
+        $this->assertEquals("2022-01-03", $transactions[3]->getDate());
     }
 
     public function testTransferAccountToAccount()
     {
         $finance = new Finance();
+        $finance->createAccount(1, 0, "2022-01-01");
+        $finance->createAccount(2, 0, "2022-01-01");
+
         $account1 = $finance->getAccount(1);
         $account2 = $finance->getAccount(2);
 
-        $account1 = $finance->deposit(1, 100, "2022-01-01");
-        $account2 = $finance->deposit(1, 200, "2022-01-02");
-        [$account1, $account2] = $finance->transfer(1, 2, 50, "2022-01-03");
+        $account1 = $finance->deposit(1, 100, "2022-01-02");
+        $account2 = $finance->deposit(2, 200, "2022-01-03");
+        [$account1, $account2] = $finance->transfer(1, 2, 50, "2022-01-04");
 
         $this->assertEquals(50, $account1->getBalance());
         $this->assertEquals(250, $account2->getBalance());
@@ -168,11 +171,14 @@ class FinanceTest extends TestCase
         $this->expectExceptionMessage("Sorry, Insufficiant Balance.");
 
         $finance = new Finance();
+        $finance->createAccount(1, 0, "2022-01-01");
+        $finance->createAccount(2, 0, "2022-01-01");
+
         $account1 = $finance->getAccount(1);
         $account2 = $finance->getAccount(2);
 
-        $account1 = $finance->deposit(1, 100, "2022-01-01");
-        $account2 = $finance->deposit(1, 200, "2022-01-02");
-        [$account1, $account2] = $finance->transfer(1, 2, 150, "2022-01-03");
+        $account1 = $finance->deposit(1, 100, "2022-01-02");
+        $account2 = $finance->deposit(2, 200, "2022-01-03");
+        [$account1, $account2] = $finance->transfer(1, 2, 150, "2022-01-04");
     }
 }

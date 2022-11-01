@@ -31,7 +31,7 @@ class Transaction implements TransactionInterface
         if (!preg_match("/^[12][0-9]{3}-[01][0-9]-[0-3][0-9]$/", $date)) throw new Exception("Sorry, date is invalid.");
 
         if (!$comment) {
-            $comment = $amount < 0 ? "withdrawal " . abs($amount) : "deposit " . $amount;
+            $comment = $amount < 0 ? "withdraw " . abs($amount) : "deposit " . $amount;
         }
         $this->setAmount($amount);
         $this->setDate($date);
