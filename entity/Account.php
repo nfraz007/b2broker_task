@@ -75,9 +75,20 @@ class Account implements AccountInterface
     {
         $transactions = $this->transactions;
 
-        if ($sortBy == "date") {
-            // $date = array_column($transactions, "date");
-            // array_multisort($date, SORT_ASC, $transactions);
+        if ($sortBy == "date" || $sortBy == "comment") {
+            $transactions = array_map(function ($v) {
+                return [
+                    "amount" => $v->getAmount(),
+                    "date" => $v->getDate(),
+                    "comment" => $v->getComment(),
+                ];
+            }, $this->transactions);
+            $sortByKey = $sortBy == "comment" ? "comment" : "date";
+            $sortByCol = array_column($transactions, $sortByKey);
+            array_multisort($sortByCol, SORT_ASC, $transactions);
+            $transactions = array_map(function ($v) {
+                return new Transaction($v["amount"], $v["date"], $v["comment"]);
+            }, $transactions);
         }
         return $transactions;
     }

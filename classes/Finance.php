@@ -18,6 +18,7 @@ interface FinanceInterface
     /** @return array<AccountInterface> */
     public function getAccounts(): array;
     public function getAccount(int $accountNo): ?AccountInterface;
+    public function getAccountBalance(int $accountNo): int;
     public function updateAccount(int $accountNo, AccountInterface $accountUpdated): void;
     public function deposit(int $accountNo, int $amount, string $date, string $comment = null): ?AccountInterface;
     public function withdrawal(int $accountNo, int $amount, string $date, string $comment = null): ?AccountInterface;
@@ -68,6 +69,12 @@ class Finance implements FinanceInterface
             if ($account->getAccountNo() == $accountNo) return $account;
         }
         return null;
+    }
+
+    public function getAccountBalance(int $accountNo): int
+    {
+        $account = $this->getAccount($accountNo);
+        return $account ? $account->getBalance() : 0;
     }
 
     public function updateAccount(int $accountNo, AccountInterface $accountUpdated): void

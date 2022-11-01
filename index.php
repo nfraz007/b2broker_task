@@ -21,39 +21,21 @@ try {
     $finance->transfer(1, 2, 10, "2022-01-04");
 
     $accounts = $finance->getAccounts();
-    echo "\n****** All Accounts ******";
+    echo "\n\n****** All Accounts ******";
     foreach ($accounts as $account) {
         echo "\nAccount No: " . $account->getAccountNo() . " | Balance: " . $account->getBalance();
     }
-    // // print all accounts
-    // $finance->printAllAccounts();
 
-    // // create account object
-    // $account1 = $finance->getAccount(1);
-    // $account2 = $finance->getAccount(2);
+    echo "\n\nAccount Balance: ";
+    echo $finance->getAccountBalance(1);
 
-    // // print account1 balance
-    // $finance->printAccountBalance($account1);
+    $account = $finance->getAccount(1);
+    echo "\nAll Transaction";
+    foreach ($account->getTransactions() as $transaction) {
+        echo "\n" . $transaction->getDate() . " | " . $transaction->getAmount() . " | " . $transaction->getComment();
+    }
 
-    // // transaction for account1
-    // $account1 = $finance->deposit($account1, 100, "deposit 100", "2022-01-01");
-    // $account1 = $finance->deposit($account1, 200, "deposit 200", "2022-01-02");
-    // $account1 = $finance->withdrawal($account1, 50, "withdrawal 50", "2022-01-03");
-
-    // // transaction for account2
-    // $account2 = $finance->deposit($account2, 150, "deposit 150", "2022-01-01");
-
-    // // transfer between account1 to account2
-    // [$account1, $account2] = $finance->transfer($account1, $account2, 150, "2022-01-04");
-
-    // // print account1 transaction
-    // $finance->printAccountTransaction($account1);
-    // $finance->printAccountTransaction($account1, ["sortBy" => "comment"]);
-
-    // // print account2 transaction
-    // $finance->printAccountTransaction($account2);
-
-    // echo "\n\n";
+    echo "\n\n";
 } catch (Exception $e) {
     echo "\nError: " . $e->getMessage();
 }
